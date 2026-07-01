@@ -24,7 +24,7 @@ public class NecesidadController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JsonNode> obtenerNecesidad(@PathVariable Long id) {
+    public ResponseEntity<JsonNode> obtenerNecesidad(@PathVariable("id") Long id) {
         JsonNode necesidad = bffService.proxyGetForObject("/necesidades/" + id, JsonNode.class);
         if (necesidad == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(necesidad);
@@ -37,31 +37,31 @@ public class NecesidadController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JsonNode> actualizarNecesidad(@PathVariable Long id, @RequestBody JsonNode body) {
+    public ResponseEntity<JsonNode> actualizarNecesidad(@PathVariable("id") Long id, @RequestBody JsonNode body) {
         JsonNode actualizada = bffService.proxyPut("/necesidades/" + id, body, JsonNode.class);
         return ResponseEntity.ok(actualizada);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarNecesidad(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarNecesidad(@PathVariable("id") Long id) {
         bffService.proxyDelete("/necesidades/" + id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/estado/{estado}")
-    public ResponseEntity<JsonNode> cambiarEstado(@PathVariable Long id, @PathVariable String estado) {
+    public ResponseEntity<JsonNode> cambiarEstado(@PathVariable("id") Long id, @PathVariable("estado") String estado) {
         JsonNode result = bffService.proxyPatch("/necesidades/" + id + "/estado/" + estado, JsonNode.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<JsonNode>> porEstado(@PathVariable String estado) {
+    public ResponseEntity<List<JsonNode>> porEstado(@PathVariable("estado") String estado) {
         List<JsonNode> result = bffService.proxyGetForList("/necesidades/estado/" + estado, JsonNode.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/ubicacion")
-    public ResponseEntity<List<JsonNode>> porUbicacion(@RequestParam String valor) {
+        public ResponseEntity<List<JsonNode>> porUbicacion(@RequestParam("valor") String valor) {
         List<JsonNode> result = bffService.proxyGetForList("/necesidades/ubicacion?valor=" + valor, JsonNode.class);
         return ResponseEntity.ok(result);
     }

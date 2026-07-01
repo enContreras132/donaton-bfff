@@ -28,7 +28,7 @@ public class DonacionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JsonNode> obtenerDonacion(@PathVariable Long id) {
+    public ResponseEntity<JsonNode> obtenerDonacion(@PathVariable("id") Long id) {
         JsonNode donacion = bffService.proxyGetForObject("/donaciones/" + id, JsonNode.class);
         if (donacion == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(donacion);
@@ -42,37 +42,37 @@ public class DonacionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JsonNode> actualizarDonacion(@PathVariable Long id, @RequestBody JsonNode body) {
+    public ResponseEntity<JsonNode> actualizarDonacion(@PathVariable("id") Long id, @RequestBody JsonNode body) {
         JsonNode actualizada = bffService.proxyPut("/donaciones/" + id, body, JsonNode.class);
         return ResponseEntity.ok(actualizada);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarDonacion(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarDonacion(@PathVariable("id") Long id) {
         bffService.proxyDelete("/donaciones/" + id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/estado/{estado}")
-    public ResponseEntity<JsonNode> cambiarEstado(@PathVariable Long id, @PathVariable String estado) {
+    public ResponseEntity<JsonNode> cambiarEstado(@PathVariable("id") Long id, @PathVariable("estado") String estado) {
         JsonNode result = bffService.proxyPatch("/donaciones/" + id + "/estado/" + estado, JsonNode.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<JsonNode>> porEstado(@PathVariable String estado) {
+    public ResponseEntity<List<JsonNode>> porEstado(@PathVariable("estado") String estado) {
         List<JsonNode> result = bffService.proxyGetForList("/donaciones/estado/" + estado, JsonNode.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<JsonNode>> porTipo(@PathVariable String tipo) {
+    public ResponseEntity<List<JsonNode>> porTipo(@PathVariable("tipo") String tipo) {
         List<JsonNode> result = bffService.proxyGetForList("/donaciones/tipo/" + tipo, JsonNode.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/detalle")
-    public ResponseEntity<DonacionDetalleResponse> detalleDonacion(@PathVariable Long id) {
+    public ResponseEntity<DonacionDetalleResponse> detalleDonacion(@PathVariable("id") Long id) {
         DonacionDetalleResponse detalle = bffService.getDonacionDetalle(id);
         if (detalle == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(detalle);
