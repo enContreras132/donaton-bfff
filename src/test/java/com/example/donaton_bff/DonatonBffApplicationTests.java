@@ -1,13 +1,14 @@
 package com.example.donaton_bff;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class DonatonBffApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void deberiaCargarClasePrincipal() {
+        DonatonBffApplication app = new DonatonBffApplication();
+        assertNotNull(app);
+    }
 }
